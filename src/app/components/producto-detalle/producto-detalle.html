@@ -1,0 +1,62 @@
+<div class="card shadow-sm detalle-card" *ngIf="producto; else sinProducto">
+  <div class="card-body p-4">
+    <h2 class="card-title mb-4">Detalle del producto</h2>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-6">
+        <p><strong>ID:</strong> {{ producto.id }}</p>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <p><strong>Precio:</strong> {{ producto.precio | currency:'CLP':'symbol' }}</p>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <p><strong>Stock:</strong> {{ producto.stock }}</p>
+      </div>
+    </div>
+
+    <div class="alert alert-light border mt-4 mb-0">
+      <strong>Permisos actuales:</strong>
+      <span *ngIf="esAdmin()">
+        puedes ver y editar este producto.
+      </span>
+      <span *ngIf="!esAdmin()">
+        puedes ver este producto, pero no editarlo.
+      </span>
+    </div>
+
+    <div class="mt-4 d-flex gap-2 flex-wrap">
+      <a class="btn btn-secondary" [routerLink]="['/productos']">
+        Volver
+      </a>
+
+      <!-- Solo ADMIN puede editar -->
+      <a
+        *ngIf="esAdmin()"
+        class="btn btn-warning"
+        [routerLink]="['/editar', producto.id]"
+      >
+        Editar
+      </a>
+    </div>
+  </div>
+</div>
+
+<ng-template #sinProducto>
+  <div class="alert alert-warning">
+    No se pudo cargar el producto.
+  </div>
+
+  <a class="btn btn-secondary" [routerLink]="['/productos']">
+    Volver a la lista
+  </a>
+</ng-template>
