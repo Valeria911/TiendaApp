@@ -1,0 +1,82 @@
+@if (usuarioActual()) {
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-principal shadow-sm">
+    <div class="container-fluid px-3 px-md-4">
+
+      <a class="navbar-brand fw-bold" routerLink="/productos">
+        Tienda Online
+      </a>
+
+      <!-- botón responsive -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSistema"
+        aria-controls="navbarSistema"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- contenido colapsable -->
+      <div class="collapse navbar-collapse" id="navbarSistema">
+
+        <!-- menú izquierdo -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/productos"
+              routerLinkActive="active"
+            >
+              Ver productos
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/perfil"
+              routerLinkActive="active"
+            >
+              Ver perfil
+            </a>
+          </li>
+
+          @if (esAdmin()) {
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                routerLink="/agregar"
+                routerLinkActive="active"
+              >
+                Agregar producto
+              </a>
+            </li>
+          }
+        </ul>
+
+        <div class="d-flex align-items-center gap-3 flex-column flex-lg-row mt-3 mt-lg-0">
+
+          <!-- info de usuario -->
+          <div class="usuario-box text-center text-lg-end">
+            <div class="fw-semibold nombre-usuario">
+              {{ usuarioActual()?.nombre }}
+            </div>
+            <div class="small rol-usuario">
+              Rol: {{ usuarioActual()?.rol }}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-outline-light btn-sm"
+            (click)="cerrarSesion()"
+          >
+            Cerrar sesión
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+}
