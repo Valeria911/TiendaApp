@@ -1,0 +1,36 @@
+<main class="container my-5">
+  <h1 class="text-center mb-4">Recuperar Contraseña</h1>
+
+  <form [formGroup]="formRecuperar" (ngSubmit)="recuperar()">
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo electrónico</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        formControlName="email"
+        [class.is-invalid]="formRecuperar.get('email')?.touched && formRecuperar.get('email')?.invalid"
+      />
+
+      <div class="invalid-feedback" *ngIf="formRecuperar.get('email')?.errors?.['required']">
+        El correo es obligatorio.
+      </div>
+      <div class="invalid-feedback" *ngIf="formRecuperar.get('email')?.errors?.['email']">
+        El formato del correo no es válido.
+      </div>
+    </div>
+
+    <!-- Mensajes -->
+    <div *ngIf="mensaje" class="alert alert-success text-center">{{ mensaje }}</div>
+    <div *ngIf="error" class="alert alert-danger text-center">{{ error }}</div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-center gap-3">
+      <button type="submit" class="btn btn-primary" [disabled]="formRecuperar.invalid">Recuperar</button>
+      <button type="button" class="btn btn-secondary" (click)="limpiar()">Limpiar</button>
+    </div>
+
+  </form>
+</main>
