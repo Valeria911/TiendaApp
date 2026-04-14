@@ -1,0 +1,107 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title mb-4">
+      {{ modoEdicion ? 'Editar Producto' : 'Formulario de Producto' }}
+    </h2>
+
+    <div *ngIf="mensajeError" class="alert alert-danger">
+      {{ mensajeError }}
+    </div>
+
+    <form #formulario="ngForm" (ngSubmit)="guardarProducto(formulario)" novalidate>
+
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          class="form-control"
+          [(ngModel)]="producto.nombre"
+          #nombre="ngModel"
+          required
+          minlength="3"
+          maxlength="200"
+        />
+
+        <div class="text-danger small mt-1" *ngIf="nombre.invalid && nombre.touched">
+          <div *ngIf="nombre.errors?.['required']">El nombre es obligatorio</div>
+          <div *ngIf="nombre.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</div>
+          <div *ngIf="nombre.errors?.['maxlength']">El nombre no puede superar 200 caracteres</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <input
+          type="text"
+          id="descripcion"
+          name="descripcion"
+          class="form-control"
+          [(ngModel)]="producto.descripcion"
+          #descripcion="ngModel"
+          required
+          minlength="3"
+          maxlength="200"
+        />
+
+        <div class="text-danger small mt-1" *ngIf="descripcion.invalid && descripcion.touched">
+          <div *ngIf="descripcion.errors?.['required']">La descripción es obligatoria</div>
+          <div *ngIf="descripcion.errors?.['minlength']">La descripción debe tener al menos 3 caracteres</div>
+          <div *ngIf="descripcion.errors?.['maxlength']">La descripción no puede superar 200 caracteres</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="precio" class="form-label">Precio</label>
+        <input
+          type="number"
+          id="precio"
+          name="precio"
+          class="form-control"
+          [(ngModel)]="producto.precio"
+          #precio="ngModel"
+          required
+          min="1000"
+          max="2100"
+        />
+
+        <div class="text-danger small mt-1" *ngIf="precio.invalid && precio.touched">
+          <div *ngIf="precio.errors?.['required']">El precio es obligatorio</div>
+          <div *ngIf="precio.errors?.['min']">El precio debe ser mayor o igual a 1000</div>
+          <div *ngIf="precio.errors?.['max']">El precio debe ser menor o igual a 10000000</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="stock" class="form-label">Stock</label>
+        <input
+          type="number"
+          id="stock"
+          name="stock"
+          class="form-control"
+          [(ngModel)]="producto.stock"
+          #stock="ngModel"
+          required
+          min="0"
+        />
+
+        <div class="text-danger small mt-1" *ngIf="stock.invalid && stock.touched">
+          <div *ngIf="stock.errors?.['required']">El stock es obligatorio</div>
+          <div *ngIf="stock.errors?.['min']">El stock debe ser mayor o igual a 0</div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button
+          type="submit"
+          class="btn btn-success me-2"
+          [disabled]="formulario.invalid">
+          {{ modoEdicion ? 'Actualizar Producto' : 'Guardar Producto' }}
+        </button>
+
+        <a class="btn btn-secondary" [routerLink]="['/productos']">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
