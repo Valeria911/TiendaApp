@@ -1,0 +1,38 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Usuario } from '../models/usuario.js';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UsuariosService {
+
+  private apiUrl = 'http://localhost:8080/api/usuarios';
+
+  constructor(private http: HttpClient) {}
+
+  login(correo: string, contrasena: string): Observable<Usuario> {
+    return this.http.post<Usuario>(`${this.apiUrl}/login`, { correo, contrasena });
+  }
+
+  registrar(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(`${this.apiUrl}/registro`, usuario);
+  }
+
+  recuperarPorcorreo(correo: string): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.apiUrl}/recuperar/${correo}`);
+  }
+
+  obtenerPorId(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.apiUrl}/${id}`);
+  }
+
+  actualizarPerfil(id: number, data: Partial<Usuario>): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.apiUrl}/${id}/perfil`, data);
+  }
+
+  obtenerTodos(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(`${this.apiUrl}`);
+  }
+}
