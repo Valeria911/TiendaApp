@@ -1,79 +1,42 @@
-<div class="container py-4">
+<div class="container mt-4" *ngIf="!error; else errorTemplate">
+  <h2 class="mb-3">Mi Perfil</h2>
 
-  <div class="mb-4">
-    <h2 class="mb-1">Mi Perfil</h2>
-    <p class="text-muted mb-0">
-      Información del usuario logueado
-    </p>
-  </div>
+  <div class="card p-3">
+    <form (ngSubmit)="guardarCambios()">
 
-  <div class="alert alert-warning" *ngIf="!usuarioActual()">
-    No existe sesión iniciada
-  </div>
-
-  <div class="card shadow-sm perfil-card" *ngIf="usuarioActual() as usuario">
-    <div class="card-body p-4">
-
-      <div class="row g-4">
-
-        <div class="col-12 col-md-4 text-center border-end-md">
-          <div class="avatar-perfil mx-auto mb-3">
-            {{ usuario.nombre.charAt(0) }}
-          </div>
-
-          <h4 class="mb-1">{{ usuario.nombre }}</h4>
-          <p class="text-muted mb-2">{{ usuario.correo }}</p>
-
-          <span
-            class="badge fs-6"
-            [ngClass]="usuario.rol === 'ADMIN' ? 'bg-danger' : 'bg-primary'"
-          >
-            {{ usuario.rol }}
-          </span>
-        </div>
-
-        <div class="col-12 col-md-8">
-          <div class="row g-3">
-
-            <div class="col-12 col-sm-6">
-              <div class="info-box">
-                <label class="info-label">ID</label>
-                <div class="info-value">{{ usuario.id }}</div>
-              </div>
-            </div>
-
-            <div class="col-12 col-sm-6">
-              <div class="info-box">
-                <label class="info-label">Estado</label>
-                <div class="info-value">
-                  <span
-                    class="badge"
-                    [ngClass]="usuario.activo ? 'bg-success' : 'bg-secondary'"
-                  >
-                    {{ usuario.activo ? 'Activo' : 'Inactivo' }}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 col-sm-6">
-              <div class="info-box">
-                <label class="info-label">Fecha de registro</label>
-                <div class="info-value">{{ usuario.fechaRegistro }}</div>
-              </div>
-            </div>
-
-            <div class="col-12 col-sm-6">
-              <div class="info-box">
-                <label class="info-label">Rol de usuario</label>
-                <div class="info-value">{{ usuario.rol }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <div class="mb-3">
+        <label class="form-label">Correo electrónico</label>
+        <input type="text" [(ngModel)]="usuario.correo" name="correo"
+               class="form-control" disabled>
       </div>
 
-    </div>
+      <div class="mb-3">
+        <label class="form-label">Rol</label>
+        <input type="text" [(ngModel)]="usuario.rol" name="rol"
+               class="form-control" disabled>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nombre completo</label>
+        <input type="text" [(ngModel)]="usuario.nombre" name="nombre"
+               class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input type="password" [(ngModel)]="usuario.contrasena" name="contrasena"
+               class="form-control" required>
+      </div>
+
+      <button class="btn btn-primary">Guardar cambios</button>
+
+      <p class="text-success mt-3" *ngIf="mensaje">{{ mensaje }}</p>
+    </form>
   </div>
 </div>
+
+<ng-template #errorTemplate>
+  <div class="alert alert-danger mt-4 container">
+    {{ error }}
+  </div>
+</ng-template>

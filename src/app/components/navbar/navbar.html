@@ -1,82 +1,123 @@
-@if (usuarioActual()) {
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-principal shadow-sm">
-    <div class="container-fluid px-3 px-md-4">
+<nav class="navbar navbar-expand-lg navbar-info bg-info">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">
+      Tienda Online
+    </a>
 
-      <a class="navbar-brand fw-bold" routerLink="/productos">
-        Tienda Online
-      </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarPrincipal"
+      aria-controls="navbarPrincipal"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <!-- botón responsive -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSistema"
-        aria-controls="navbarSistema"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <div class="collapse navbar-collapse" id="navbarPrincipal">
 
-      <!-- contenido colapsable -->
-      <div class="collapse navbar-collapse" id="navbarSistema">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-        <!-- menú izquierdo -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              routerLink="/productos"
-              routerLinkActive="active"
-            >
-              Ver productos
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              routerLink="/perfil"
-              routerLinkActive="active"
-            >
-              Ver perfil
-            </a>
-          </li>
-
-          @if (esAdmin()) {
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                routerLink="/agregar"
-                routerLinkActive="active"
-              >
-                Agregar producto
-              </a>
-            </li>
-          }
-        </ul>
-
-        <div class="d-flex align-items-center gap-3 flex-column flex-lg-row mt-3 mt-lg-0">
-
-          <!-- info de usuario -->
-          <div class="usuario-box text-center text-lg-end">
-            <div class="fw-semibold nombre-usuario">
-              {{ usuarioActual()?.nombre }}
-            </div>
-            <div class="small rol-usuario">
-              Rol: {{ usuarioActual()?.rol }}
-            </div>
-          </div>
-
-          <button
-            type="button"
-            class="btn btn-outline-light btn-sm"
-            (click)="cerrarSesion()"
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/home"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
           >
+            Inicio
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="estaAutenticado">
+          <a
+            class="nav-link"
+            routerLink="/perfil"
+            routerLinkActive="active"
+          >
+            Mi Perfil
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="esAdmin">
+          <a
+            class="nav-link"
+            routerLink="/usuarios"
+            routerLinkActive="active"
+          >
+            Usuarios
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="esVendedor">
+          <a
+            class="nav-link"
+            routerLink="/perfil"
+            routerLinkActive="active"
+          >
+            Mi perfil
+          </a>
+        </li>
+
+        <ng-container *ngIf="!estaAutenticado">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/login"
+              routerLinkActive="active"
+            >
+              Iniciar sesión
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/registro"
+              routerLinkActive="active"
+            >
+              Registrarme
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/recuperar"
+              routerLinkActive="active"
+            >
+              Recuperar contraseña
+            </a>
+          </li>
+        </ng-container>
+
+      </ul>
+
+      <div class="d-flex align-items-center">
+
+        <ng-container *ngIf="estaAutenticado; else noSesion">
+          <span class="navbar-text me-3">
+            {{ nombreUsuario }}
+            <span class="badge bg-info text-dark ms-1">
+              {{ rolUsuario }}
+            </span>
+          </span>
+
+          <button class="btn btn-outline-light btn-sm" (click)="cerrarSesion()">
             Cerrar sesión
           </button>
-        </div>
+        </ng-container>
+
+        <ng-template #noSesion>
+          <span class="navbar-text">
+            No hay usuario autenticado
+          </span>
+        </ng-template>
+
       </div>
+
     </div>
-  </nav>
-}
+  </div>
+</nav>

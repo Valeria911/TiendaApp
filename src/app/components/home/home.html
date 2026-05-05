@@ -1,0 +1,68 @@
+<div class="container mt-4">
+
+  <h1 class="mb-3">Tienda Online</h1>
+
+  <div class="row g-3">
+
+    <div class="col-md-6">
+      <div class="card p-3 shadow-sm">
+
+        <h5 class="card-title">Estado de sesión</h5>
+
+        <ng-container *ngIf="estaAutenticado; else sinSesion">
+
+          <p class="mb-1">
+            Sesión iniciada:
+            <strong>{{ nombreUsuario }}</strong>
+          </p>
+
+          <p class="mb-3">
+            Rol:
+            <span class="badge bg-info">{{ rolUsuario }}</span>
+          </p>
+
+          <button
+            class="btn btn-outline-info btn-sm"
+            (click)="irAProductos()">
+            Ir a gestión de productos
+          </button>
+
+        </ng-container>
+
+        <ng-template #sinSesion>
+          <p class="mb-3">
+            Nadie ha iniciado sesión
+          </p>
+
+          <button
+            class="btn btn-info btn-sm me-2"
+            (click)="irALogin()">
+            Iniciar sesión
+          </button>
+
+          <button
+            class="btn btn-outline-secondary btn-sm"
+            (click)="irARegistro()">
+            Registrarme
+          </button>
+
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card p-3 shadow-sm">
+
+        <h5 class="card-title">Descripción</h5>
+
+        <p>
+          Esta aplicación es una tienda online de ejemplo, creada para demostrar
+          el uso de Angular en el frontend y Spring Boot en el backend. Permite
+          a los usuarios registrarse, iniciar sesión y gestionar productos.
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+</div>

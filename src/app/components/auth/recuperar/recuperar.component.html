@@ -1,0 +1,23 @@
+<div class="container mt-4" style="max-width: 480px;">
+  <h2 class="mb-3">Recuperar contraseña</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label class="form-label">Correo electrónico registrado</label>
+      <input type="email" class="form-control" formControlName="correo" />
+    </div>
+
+    <div *ngIf="mensajeError" class="alert alert-danger py-2">
+      {{ mensajeError }}
+    </div>
+
+    <div *ngIf="mensajeOk" class="alert alert-info py-2">
+      {{ mensajeOk }}
+    </div>
+
+    <button class="btn btn-primary" type="submit">
+      Recuperar contraseña
+    </button>
+  </form>
+</div>
+

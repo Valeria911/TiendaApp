@@ -1,0 +1,36 @@
+<div class="container mt-4" *ngIf="!error; else errorTemplate">
+  <h2 class="mb-3">Lista de Usuarios</h2>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-info">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Activo</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let u of usuarios">
+        <td>{{ u.id }}</td>
+        <td>{{ u.nombre }}</td>
+        <td>{{ u.correo }}</td>
+        <td>
+          <span class="badge bg-primary" *ngIf="u.rol === 'ADMIN'">ADMIN</span>
+          <span class="badge bg-secondary" *ngIf="u.rol === 'VENDEDOR'">VENDEDOR</span>
+          <span class="badge bg-success" *ngIf="u.rol === 'CLIENTE'">CLIENTE</span>
+        </td>
+        <td>{{ u.activo ? 'Sí' : 'No' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #errorTemplate>
+  <div class="alert alert-danger mt-4 container">
+    {{ error }}
+  </div>
+</ng-template>
+

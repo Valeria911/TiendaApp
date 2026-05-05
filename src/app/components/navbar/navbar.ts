@@ -1,30 +1,44 @@
-import { Component, computed } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service.js';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'
+  styleUrls: ['./navbar.scss']
 })
 export class NavbarComponent {
 
-  constructor(
-    public authService: AuthService,
-    private router: Router
-  ) {}
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  usuarioActual = computed(() => this.authService.usuarioActual());
+  get estaAutenticado(): boolean {
+    return this.authService.estaAutenticado();
+  }
 
-  esAdmin = computed(() => this.authService.tieneRol('ADMIN'));
+  get esAdmin(): boolean {
+    return this.authService.esAdmin();
+  }
 
-  esVendedor = computed(() => this.authService.tieneRol('VENDEDOR'));
+  get esVendedor(): boolean {
+    return this.authService.esVendedor();
+  }
+
+  get nombreUsuario(): string {
+    return this.authService.usuarioActual?.nombre ?? '';
+  }
+
+  get rolUsuario(): string {
+    return this.authService.usuarioActual?.rol ?? '';
+  }
 
   cerrarSesion(): void {
+
     this.authService.logout();
-    this.router.navigate(['/login']);
+
+    this.router.navigate(['/home']);
   }
 }

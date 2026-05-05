@@ -1,54 +1,43 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Producto } from '../../models/producto';
-import { ProductosService } from '../../services/productos.service';
-import { AuthService } from '../../services/auth.service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ProductosService } from '../../services/productos.service.js';
+import { Producto } from '../../models/producto.js';
 
 @Component({
   selector: 'app-producto-detalle',
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './producto-detalle.html',
-  styleUrl: './producto-detalle.scss'
+  styleUrls: ['./producto-detalle.scss']
 })
-export class ProductoDetalle implements OnInit {
+export class ProductoDetalleComponent implements OnInit {
 
-  producto: Producto | null = null;
+  producto?: Producto;
+  loading = true;
+  error = '';
 
   constructor(
-    private productosService: ProductosService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    public authService: AuthService
+    private router: Router,
+    private productosSrv: ProductosService
   ) {}
 
   ngOnInit(): void {
-
-    const idParam = this.route.snapshot.paramMap.get('id');
-
-    if (idParam) {
-      const id = Number(idParam);
-      this.cargarProducto(id);
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (!id) {
+      this.error = 'ID inválido';
+      this.loading = false;
+      return;
     }
-  }
 
-  cargarProducto(id: number): void {
-    this.productosService.getProductoById(id).subscribe({
-      next: (data) => {
-        console.log('Detalle del producto recibido:', data);
-
-        this.producto = data;
-
-        this.cdr.markForCheck();
-      },
-      error: (error) => {
-        console.error('Error al obtener el detalle del producto:', error);
+    this.productosSrv.getProductoById(id).subscribe({
+      next: (data: Producto) => { this.producto = data; this.loading = false; },
+      error: (err: unknown) => {
+        this.error = 'No se pudo obtener el producto.';
+        this.loading = false;
+        console.error('Error obtener por ID:', err);
       }
     });
-  }
-
-  esAdmin(): boolean {
-    return this.authService.tieneRol('ADMIN');
   }
 }

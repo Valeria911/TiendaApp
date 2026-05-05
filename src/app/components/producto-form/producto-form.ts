@@ -1,117 +1,105 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Producto } from '../../models/producto';
-import { ProductosService } from '../../services/productos.service';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { ProductosService } from '../../services/productos.service.js';
+import { Producto } from '../../models/producto.js';
 
 @Component({
   selector: 'app-producto-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './producto-form.html',
-  styleUrl: './producto-form.scss'
+  styleUrls: ['./producto-form.scss']
 })
+export class ProductoFormComponent implements OnInit {
 
-export class ProductoForm implements OnInit {
-
-    producto: Producto = {
-    nombre: '',
-    descripcion: '',
-    precio: 1000,
-    stock: 0
-  };
-
-  modoEdicion = false;
-
-  idProducto: number | null = null;
-
-  mensajeError = '';
+  form!: FormGroup;     
+  editMode = false;     
+  productoId?: number;  
+  loading = false;      
+  error = '';           
 
   constructor(
-    private productosService: ProductosService,
-    private router: Router,
+    private fb: FormBuilder,
+    private productosSrv: ProductosService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
+    this.form = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(3)]],
+      descripcion: ['', [Validators.required, Validators.minLength(3)]],
+      precio: ['', [Validators.required, Validators.min(1)]],
+      stock: ['', [Validators.required, Validators.min(0)]]
+    });
 
-    if (idParam) {
-      this.modoEdicion = true;
-      this.idProducto = Number(idParam);
-      this.cargarProducto(this.idProducto);
-    }
-  }
+    this.route.params.subscribe((params: Params) => {
+      if (params['id']) {
+        this.editMode = true;
+        this.productoId = +params['id'];
+        this.loading = true;
 
-  cargarProducto(id: number): void {
-    this.productosService.getProductoById(id).subscribe({
-      next: (data) => {
-        console.log('Producto cargado para edición:', data);
-        this.producto = data;
-        this.cdr.markForCheck();
-      },
-      error: (error) => {
-        console.error('Error al cargar el producto para editar:', error);
-        this.mensajeError = 'No se pudo cargar el producto para edición.';
-        this.cdr.markForCheck();
+        this.productosSrv.getProductoById(this.productoId).subscribe({
+          next: (producto: Producto) => {
+            this.form.patchValue(producto);
+            this.loading = false;
+          },
+          error: (err: unknown) => {
+            this.error = 'No se pudo cargar el producto';
+            this.loading = false;
+            console.error('Error obtener por ID:', err);
+          }
+        });
       }
     });
   }
 
-  guardarProducto(formulario: NgForm): void {
-    this.mensajeError = '';
-
-    if (formulario.invalid) {
-      formulario.control.markAllAsTouched();
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched(); 
       return;
     }
 
-    console.log('Producto a guardar:', this.producto);
+    const payload: Producto = this.form.value;
 
-    if (this.modoEdicion && this.idProducto !== null) {
-      this.actualizarProducto();
+    if (this.editMode && this.productoId) {
+      this.productosSrv.updateProducto(this.productoId, payload).subscribe({
+        next: () => {
+          alert('Producto actualizado correctamente');
+          this.router.navigate(['/productos']);
+        },
+        error: (err: unknown) => {
+          console.error('Error al actualizar:', err);
+          alert('No se pudo actualizar el producto');
+        }
+      });
     } else {
-      this.crearProducto();
+      this.productosSrv.createProducto(payload).subscribe({
+        next: () => {
+          alert('Producto creado correctamente');
+          this.router.navigate(['/productos']);
+        },
+        error: (err: unknown) => {
+          console.error('Error al crear:', err);
+          alert('No se pudo crear el producto');
+        }
+      });
     }
   }
 
-  crearProducto(): void {
-    this.productosService.createProducto(this.producto).subscribe({
-      next: (respuesta) => {
-        console.log('Producto guardado correctamente:', respuesta);
-        this.router.navigate(['/productos']);
-      },
-      error: (error) => {
-        console.error('Error al guardar el producto:', error);
-        this.mensajeError = this.obtenerMensajeError(error);
-        this.cdr.markForCheck();
-      }
-    });
-  }
+  //helpers
+  hasError(ctrl: string, error?: string): boolean {
+    const c = this.form.get(ctrl);
+    if (!c) return false;
 
-  actualizarProducto(): void {
-    if (this.idProducto === null) return;
-
-    this.productosService.updateProducto(this.idProducto, this.producto).subscribe({
-      next: (respuesta) => {
-        console.log('Producto actualizado correctamente:', respuesta);
-        this.router.navigate(['/productos']);
-      },
-      error: (error) => {
-        console.error('Error al actualizar el producto:', error);
-        this.mensajeError = this.obtenerMensajeError(error);
-        this.cdr.markForCheck();
-      }
-    });
-  }
-
-  obtenerMensajeError(error: any): string {
-    if (error?.status === 400) {
-      return 'Los datos enviados no cumplen las validaciones requeridas. Revisa el formulario.';
+    if (!error) {
+      return !!(c.invalid && (c.dirty || c.touched));
     }
-
-    return 'Ocurrió un error al procesar la solicitud. Reintenta';
+    
+    return !!(c.touched && c.hasError(error));
   }
+
 }
+
