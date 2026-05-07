@@ -20,7 +20,7 @@ export class UsuariosService {
     return this.http.post<Usuario>(`${this.apiUrl}/registro`, usuario);
   }
 
-  recuperarPorcorreo(correo: string): Observable<Usuario> {
+  recuperarPorCorreo(correo: string): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.apiUrl}/recuperar/${correo}`);
   }
 

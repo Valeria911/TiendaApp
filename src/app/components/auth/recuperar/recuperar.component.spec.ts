@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { RecuperarComponent } from './recuperar.component';
+import { RecuperarComponent } from './recuperar.component.js';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { UsuariosService } from '../../../services/usuarios.service';
+import { UsuariosService } from '../../../services/usuarios.service.js';
 import { of, throwError } from 'rxjs';
 
 //mock
@@ -59,9 +59,9 @@ describe('RecuperarComponent', () => {
   });
 
   //correcto
-  it('debería llamar a recuperarPorcorreo si el formulario es válido', () => {
+  it('debería llamar a recuperarPorCorreo si el formulario es válido', () => {
 
-    const spyRecuperar = spyOn(usuariosService, 'recuperarPorcorreo').and.callThrough();
+    const spyRecuperar = spyOn(usuariosService, 'recuperarPorCorreo').and.callThrough();
 
     component.form.setValue({
       correo: 'test@mail.com'
@@ -74,9 +74,9 @@ describe('RecuperarComponent', () => {
     expect(component.mensajeOk).toContain('Usuario encontrado: Usuario Test');
   });
 
-  it('debería manejar error si recuperarPorcorreo falla', () => {
+  it('debería manejar error si recuperarPorCorreo falla', () => {
 
-    spyOn(usuariosService, 'recuperarPorcorreo').and.returnValue(
+    spyOn(usuariosService, 'recuperarPorCorreo').and.returnValue(
       throwError(() => new Error('No existe'))
     );
 

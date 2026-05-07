@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login';
-import { ProductoLista } from './components/producto-lista/producto-lista';
-import { ProductoForm } from './components/producto-form/producto-form';
-import { ProductoDetalle } from './components/producto-detalle/producto-detalle';
-import { PerfilComponent } from './components/perfil/perfil';
-import { RegistroComponent } from './components/registro/registro';
-import { RecuperarComponent } from './components/recuperar/recuperar.component';
+import { LoginComponent } from './components/auth/login/login.js';
+import { ProductosListaComponent } from './components/producto-lista/producto-lista.js';
+import { ProductoFormComponent } from './components/producto-form/producto-form.js';
+import { ProductoDetalleComponent } from './components/producto-detalle/producto-detalle.js';
+import { PerfilComponent } from './components/perfil/perfil.js';
+import { RegistroComponent } from './components/auth/registro/registro.js';
+import { RecuperarComponent } from './components/auth/recuperar/recuperar.component.js';
 
 export const routes: Routes = [
   {
@@ -30,22 +30,22 @@ export const routes: Routes = [
 
   {
     path: 'productos',
-    component: ProductoLista
+    component: ProductosListaComponent
   },
 
   {
     path: 'agregar',
-    component: ProductoForm
+    component: ProductoFormComponent
   },
 
   {
     path: 'editar/:id',
-    component: ProductoForm
+    component: ProductoFormComponent
   },
 
   {
     path: 'detalle/:id',
-    component: ProductoDetalle
+    component: ProductoDetalleComponent
   },
 
   {

@@ -1,96 +1,56 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ProductosService } from '../../services/productos.service';
-import { Producto } from '../../models/producto';
-import { AuthService } from '../../services/auth.service';
+
+import { ProductosService } from '../../services/productos.service.js';
+import { AuthService } from '../../services/auth.service.js';     // 👈 NUEVO
+import { Producto } from '../../models/producto.js';
 
 @Component({
   selector: 'app-productos-lista',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './producto-lista.html',
-  styleUrl: './producto-lista.scss'
+  styleUrls: ['./producto-lista.scss']
 })
-export class ProductoLista implements OnInit {
+export class ProductosListaComponent implements OnInit {
 
   productos: Producto[] = [];
+  loading = true;
+  error = '';
 
-  productosFiltrados: Producto[] = [];
+  // 👇 NUEVO: exponer AuthService para usar en el HTML
+  public auth = inject(AuthService);
 
-  textoBusqueda = '';
-
-  constructor(
-    private productosService: ProductosService,
-    private cdr: ChangeDetectorRef,
-    public authService: AuthService
-  ) {}
+  constructor(private productosSrv: ProductosService) {}
 
   ngOnInit(): void {
-    console.log('COMPONENTE PRODUCTOS CARGADO');
-
-    this.cargarProductos();
-  }
-
-  cargarProductos(): void {
-    this.productosService.getProductos().subscribe({
-      next: (data) => {
-        console.log('Productos recibidos:', data);
+    this.productosSrv.getProductos().subscribe({
+      next: (data: Producto[]) => {
         this.productos = data;
-        this.productosFiltrados = data;
-
-        this.cdr.markForCheck();
+        this.loading = false;
       },
-      error: (error) => {
-        console.error('Error al obtener productos:', error);
+      error: () => {
+        this.error = 'No se pudieron cargar los productos.';
+        this.loading = false;
       }
     });
   }
 
-  filtrarProductos(): void {
-    const texto = this.textoBusqueda.toLowerCase().trim();
-    if (!texto) {
-      this.productosFiltrados = [...this.productos];
-      return;
-    }
-
-    this.productosFiltrados = this.productos.filter((producto) =>
-      producto.nombre.toLowerCase().includes(texto) ||
-      producto.descripcion.toLowerCase().includes(texto) ||
-      producto.precio.toString().includes(texto)
-    );
-  }
-
-  eliminarProducto(id: number | undefined): void {
-
+  eliminar(id?: number): void {
     if (!id) return;
-    if (!this.esAdmin()) {
-      alert('No tiene permisos para eliminar productos');
-      return;
-    }
+    const ok = confirm('¿Seguro que deseas eliminar este producto?');
+    if (!ok) return;
 
-    const confirmado = confirm('¿Estás seguro de que deseas eliminar este producto?');
-
-    if (!confirmado) return;
-
-    this.productosService.deleteProducto(id).subscribe({
+    this.productosSrv.deleteProducto(id).subscribe({
       next: () => {
-        console.log(`Producto con id ${id} eliminado correctamente`);
-
-        this.cargarProductos();
+        this.productos = this.productos.filter(p => p.id !== id);
+        alert('✅ Producto eliminado correctamente');
       },
-      error: (error) => {
-        console.error('Error al eliminar el producto:', error);
+      error: () => {
+        alert('No se pudo eliminar el producto');
       }
     });
   }
 
-  esAdmin(): boolean {
-    return this.authService.tieneRol('ADMIN');
-  }
-
-  esVendedor(): boolean {
-    return this.authService.tieneRol('VENDEDOR');
-  }
 }

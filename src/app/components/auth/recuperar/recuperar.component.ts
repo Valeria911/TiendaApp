@@ -33,7 +33,7 @@ export class RecuperarComponent {
     }
 
     const correo = this.form.value.correo!;
-    this.usuariosService.recuperarPorcorreo(correo).subscribe({
+    this.usuariosService.recuperarPorCorreo(correo).subscribe({
       next: (usuario: any) => {
         this.mensajeOk =
           `Usuario encontrado: ${usuario.nombre} (rol ${usuario.rol}). ` +

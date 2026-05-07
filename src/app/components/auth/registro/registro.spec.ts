@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { RegistroComponent } from './registro.component';
+import { RegistroComponent } from './registro.js';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { UsuariosService } from '../../../services/usuarios.service';
+import { UsuariosService } from '../../../services/usuarios.service.js';
 import { Router } from '@angular/router';
 
 import { of, throwError } from 'rxjs';
@@ -57,8 +57,7 @@ describe('RegistroComponent', () => {
     component.form.setValue({
       nombre: '',
       correo: '',
-      password: '',
-      telefono: ''
+      contrasena: ''
     });
 
     component.onSubmit();
@@ -74,8 +73,7 @@ describe('RegistroComponent', () => {
     component.form.setValue({
       nombre: 'Francesco',
       correo: 'ftossi@mail.com',
-      password: '123456',
-      telefono: '911223344'
+      contrasena: '123456'
     });
 
     component.onSubmit();
@@ -94,9 +92,7 @@ describe('RegistroComponent', () => {
     component.form.setValue({
       nombre: 'Gustavo',
       correo: 'gus@gmail.com',
-      contrasena: '098765',
-      activo: true,
-      fechaRegistro: new Date()
+      contrasena: '098765'
     });
 
     component.onSubmit();
@@ -113,9 +109,7 @@ describe('RegistroComponent', () => {
     component.form.setValue({
       nombre: 'Paola',
       correo: 'paola@ymail.com',
-      contrasena: '654321',
-      activo: true,
-      fechaRegistro: new Date()
+      contrasena: '654321'
     });
 
     expect(component.cargando).toBeFalse();

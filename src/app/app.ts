@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar';
+import { NavbarComponent } from './components/navbar/navbar.js';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
