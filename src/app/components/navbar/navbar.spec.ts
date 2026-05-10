@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NavbarComponent } from './navbar.js';
+import { NavbarComponent } from './navbar';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthService } from '../../services/auth.service.js';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
 

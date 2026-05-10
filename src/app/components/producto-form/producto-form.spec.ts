@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { ProductoFormComponent } from './producto-form.js';
+import { ProductoFormComponent } from './producto-form';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Producto } from '../../models/producto.js';
-import { ProductosService } from '../../services/productos.service.js';
+import { Producto } from '../../models/producto';
+import { ProductosService } from '../../services/productos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { of, throwError } from 'rxjs';

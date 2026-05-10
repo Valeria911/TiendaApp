@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { RegistroComponent } from './registro.js';
+import { RegistroComponent } from './registro';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { UsuariosService } from '../../../services/usuarios.service.js';
+import { UsuariosService } from '../../../services/usuarios.service';
 import { Router } from '@angular/router';
 
 import { of, throwError } from 'rxjs';

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { UsuariosService } from '../../../services/usuarios.service.js';
+import { UsuariosService } from '../../../services/usuarios.service';
 
 @Component({
   selector: 'app-recuperar-contrasena',

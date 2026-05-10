@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { UsuariosListaComponent } from './lista-usuarios.js';
+import { UsuariosListaComponent } from './lista-usuarios';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of, throwError, Observable } from 'rxjs';
-import { Usuario } from '../../models/usuario.js';
+import { Usuario } from '../../models/usuario';
 
 class AuthServiceMock {
 

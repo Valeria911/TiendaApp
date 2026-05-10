@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { RecuperarComponent } from './recuperar.component.js';
+import { RecuperarComponent } from './recuperar.component';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { UsuariosService } from '../../../services/usuarios.service.js';
+import { UsuariosService } from '../../../services/usuarios.service';
 import { of, throwError } from 'rxjs';
 
 //mock

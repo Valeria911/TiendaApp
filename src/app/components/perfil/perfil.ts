@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service.js';
-import { UsuariosService } from '../../services/usuarios.service.js';
+import { AuthService } from '../../services/auth.service';
+import { UsuariosService } from '../../services/usuarios.service';
 import { Router } from '@angular/router';
-import { Usuario } from '../../models/usuario.js';
+import { Usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-perfil',

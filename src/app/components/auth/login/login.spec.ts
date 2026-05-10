@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of, throwError } from 'rxjs';

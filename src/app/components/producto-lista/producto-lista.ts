@@ -2,9 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-import { ProductosService } from '../../services/productos.service.js';
-import { AuthService } from '../../services/auth.service.js';     // 👈 NUEVO
-import { Producto } from '../../models/producto.js';
+import { ProductosService } from '../../services/productos.service';
+import { AuthService } from '../../services/auth.service';
+import { Producto } from '../../models/producto';
 
 @Component({
   selector: 'app-productos-lista',

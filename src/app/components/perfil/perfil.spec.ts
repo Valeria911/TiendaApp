@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PerfilComponent } from './perfil.js';
+import { PerfilComponent } from './perfil';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AuthService } from '../../services/auth.service.js';
-import { UsuariosService } from '../../services/usuarios.service.js';
+import { AuthService } from '../../services/auth.service';
+import { UsuariosService } from '../../services/usuarios.service';
 import { Router } from '@angular/router';
 
 import { of, throwError } from 'rxjs';

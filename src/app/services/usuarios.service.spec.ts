@@ -85,7 +85,7 @@ describe('UsuariosService', () => {
       fechaRegistro: '2024-01-01T00:00:00Z'
     };
 
-    service.recuperarPorcorreo('test@mail.com').subscribe((resp) => {
+    service.recuperarPorCorreo('test@mail.com').subscribe((resp) => {
       expect(resp).toEqual(mockUsuario);
     });
 

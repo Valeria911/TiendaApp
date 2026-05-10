@@ -1,11 +1,11 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { ProductoDetalleComponent } from './producto-detalle.js';
+import { ProductoDetalleComponent } from './producto-detalle';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of, throwError, Observable } from 'rxjs';
-import { ProductosService } from '../../services/productos.service.js';
-import { Producto } from '../../models/producto.js';
+import { ProductosService } from '../../services/productos.service';
+import { Producto } from '../../models/producto';
 
 // Mock del servicio ProductosService
 class ProductosServiceMock {
