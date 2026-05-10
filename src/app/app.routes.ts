@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './components/auth/login/login.js';
-import { ProductosListaComponent } from './components/producto-lista/producto-lista.js';
-import { ProductoFormComponent } from './components/producto-form/producto-form.js';
-import { ProductoDetalleComponent } from './components/producto-detalle/producto-detalle.js';
-import { PerfilComponent } from './components/perfil/perfil.js';
-import { RegistroComponent } from './components/auth/registro/registro.js';
-import { RecuperarComponent } from './components/auth/recuperar/recuperar.component.js';
+import { LoginComponent } from './components/auth/login/login';
+import { ProductosListaComponent } from './components/producto-lista/producto-lista';
+import { ProductoFormComponent } from './components/producto-form/producto-form';
+import { ProductoDetalleComponent } from './components/producto-detalle/producto-detalle';
+import { PerfilComponent } from './components/perfil/perfil';
+import { RegistroComponent } from './components/auth/registro/registro';
+import { RecuperarComponent } from './components/auth/recuperar/recuperar.component';
 
 export const routes: Routes = [
   {
