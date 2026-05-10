@@ -9,22 +9,28 @@ module.exports = function (config) {
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
-
+    client: {
+      jasmine: { },
+      clearContext: false // deja visible el resultado en el navegador
+    },
+    jasmineHtmlReporter: {
+      suppressAll: true 
+    },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage'),
+      dir: require('path').join(__dirname, './coverage/nombre-de-tu-proyecto'),
+      subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'lcovonly', file: 'lcov.info' },
         { type: 'text-summary' }
-      ],
-      fixWebpackSourcePaths: true
+      ]
     },
-
-    reporters: ['progress', 'kjhtml', 'coverage'],
-    browsers: ['Chrome'],
-
-    singleRun: false,   // NO headless
+    reporters: ['progress', 'kjhtml'],
+    port: 9876,
+    colors: true,
+    logLevel: config.LOG_INFO,
     autoWatch: true,
+    browsers: ['Chrome'],
+    singleRun: false,
     restartOnFileChange: true
   });
 };
